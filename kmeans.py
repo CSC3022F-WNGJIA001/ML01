@@ -41,16 +41,13 @@ def iteration():
         for j in range(K):
             # determine the distance between every data-point and each centroid
             dist = np.linalg.norm(data_points[i]-centroids[j])
-            # print("distance of data-point ", i, "to centroid ", j, ": ", dist)
             if dist < distance:
                 # if the j centroid is closer to the i data-point
                 # change the distance and assign_to
                 distance = dist
                 assign_to = j
-        # print("assign data point", i, "to cluster", assign_to)
         # update which cluster the i data-point belongs to
         clusters[assign_to].append(i+1)
-    # print(clusters)
     # Calculate the new centroid or mean of all data-points in each cluster
     for i in range(K):
         i_lst = [] # list to store the data-point in each cluster
@@ -59,7 +56,6 @@ def iteration():
         # convert the list to numpy array for mean calculation
         i_arr = np.array(i_lst)
         centroids[i] = np.mean(i_arr, axis=0)
-        # print(centroids[i])
 
 if __name__=='__main__':
     i = 1
