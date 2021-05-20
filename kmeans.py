@@ -5,6 +5,7 @@
 # importing packages
 import numpy as np
 import array
+import copy
 
 # global variables
 K = 3
@@ -26,9 +27,9 @@ def convergence():
 def iteration():
     global centroids, centroids_prev, clusters, clusters_prev
     # make a copy of centroids
-    centroids_prev = centroids
+    centroids_prev = copy.deepcopy(centroids)
     # make a copy of clusters and clear clusters for updating data-points
-    clusters_prev = clusters
+    clusters_prev = copy.deepcopy(clusters)
     clusters.clear()
     for i in range(K):
         clusters.append([]);
@@ -58,10 +59,17 @@ def iteration():
         # convert the list to numpy array for mean calculation
         i_arr = np.array(i_lst)
         centroids[i] = np.mean(i_arr, axis=0)
-        print(centroids[i])
+        # print(centroids[i])
 
 if __name__=='__main__':
     i = 1
-    while(!convergence()):
+    while not(convergence()):
+        print("Iteration %2d" % (i))
         iteration()
-        for
+        for j in range(K):
+            print("\tCluster %2d:" % (j+1), end = " ")
+            s_arr = [str(data_point) for data_point in clusters[j]]
+            print(', '.join(s_arr))
+            print("\tCentroid: (%2.1f, %2.1f)" % (centroids[j][0], centroids[j][1]))
+            print()
+        i += 1
