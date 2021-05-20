@@ -70,6 +70,6 @@ if __name__=='__main__':
             print("\tCluster %2d:" % (j+1), end = " ")
             s_arr = [str(data_point) for data_point in clusters[j]]
             print(', '.join(s_arr))
-            print("\tCentroid: (%2.1f, %2.1f)" % (centroids[j][0], centroids[j][1]))
+            print("\tCentroid: (%.3g, %.3g)" % (centroids[j][0], centroids[j][1]))
             print()
         i += 1
