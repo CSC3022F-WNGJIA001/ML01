@@ -7,9 +7,10 @@ import numpy as np
 import array
 
 # global variables
+K = 3
 data_points = np.array([[2,10], [2,5], [8,4], [5,8], [7,5], [6,4], [1,2], [4,9]])
-centroids = np.array([[2,10], [5,8], [1,2]]) # initial centroids
-centroids_prev = np.array([[0,0], [0,0], [0,0]]) # centroids of previous iteration
+centroids = np.array([[2.,10.], [5.,8.], [1.,2.]]) # initial centroids
+centroids_prev = np.array([[0.,0.], [0.,0.], [0.,0.]]) # centroids of previous iteration
 clusters = [[], [], []] # initial clusters K = 3
 clusters_prev = [[], [], []] # clusters of previous iteration
 
@@ -24,14 +25,19 @@ def convergence():
 
 def iteration():
     global centroids, centroids_prev, clusters, clusters_prev
+    # make a copy of centroids
     centroids_prev = centroids
+    # make a copy of clusters and clear clusters for updating data-points
     clusters_prev = clusters
+    clusters.clear()
+    for i in range(K):
+        clusters.append([]);
     # Assign data-points to their closest cluster centroid
     # according to the Euclidean distance function
     for i in range(data_points.shape[0]):
         distance = 10 # distance between data-point and centroid, default = 10
         assign_to = 0 # which cluster the data-point is assigned to, default = 0
-        for j in range(centroids.shape[0]):
+        for j in range(K):
             # determine the distance between every data-point and each centroid
             dist = np.linalg.norm(data_points[i]-centroids[j])
             # print("distance of data-point ", i, "to centroid ", j, ": ", dist)
@@ -41,10 +47,21 @@ def iteration():
                 distance = dist
                 assign_to = j
         # print("assign data point", i, "to cluster", assign_to)
-        clusters[assign_to].append(i)
-    print(clusters)
-
-    # Calculate the centroid or mean of all objects in each cluster
+        # update which cluster the i data-point belongs to
+        clusters[assign_to].append(i+1)
+    # print(clusters)
+    # Calculate the new centroid or mean of all data-points in each cluster
+    for i in range(K):
+        i_lst = [] # list to store the data-point in each cluster
+        for j in clusters[i]:
+            i_lst.append(data_points[j-1])
+        # convert the list to numpy array for mean calculation
+        i_arr = np.array(i_lst)
+        centroids[i] = np.mean(i_arr, axis=0)
+        print(centroids[i])
 
 if __name__=='__main__':
-    iteration()
+    i = 1
+    while(!convergence()):
+        iteration()
+        for
